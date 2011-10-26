@@ -1,4 +1,8 @@
 Qfeedreader::Application.routes.draw do
+  match 'feeds/:id/refresh' => 'feeds#refresh'
+  match 'feeds/refresh' => 'feeds#refresh_all'
+  root :to => "feeds#index"
+  resources :feeds
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

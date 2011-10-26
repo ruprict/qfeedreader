@@ -27,4 +27,10 @@ Qfeedreader::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  silence_warnings do
+    require 'pry'
+    IRB = Pry
+  end
 end
+

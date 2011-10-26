@@ -6,7 +6,8 @@ gem 'rails', '3.1.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-
+gem 'feedzirra'
+gem 'delayed_job'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -30,7 +31,14 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+group :development do 
+  gem 'nifty-generators', :group => :development
+  gem 'foreman'
+  gem 'pry'
+end
+
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem "mocha"
 end

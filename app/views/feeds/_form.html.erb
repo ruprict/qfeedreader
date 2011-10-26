@@ -1,0 +1,16 @@
+<%= form_for @feed do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </p>
+  <p>
+    <%= f.label :updated_at %><br />
+    <%= f.time_select :updated_at %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
