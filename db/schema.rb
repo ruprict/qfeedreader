@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111026122622) do
+ActiveRecord::Schema.define(:version => 20111026170858) do
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20111026122622) do
     t.string   "url"
     t.time     "updated_at"
     t.datetime "created_at"
+    t.datetime "feed_updated_at"
   end
 
   create_table "posts", :force => true do |t|

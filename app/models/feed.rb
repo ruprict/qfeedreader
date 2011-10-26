@@ -16,7 +16,7 @@ class Feed < ActiveRecord::Base
     transaction do
       logger.info("** Feed found")
       self.title = feed.title
-      self.updated_at = feed.last_modified
+      self.feed_updated_at = feed.last_modified
       save!
       logger.info("** Feed saved: #{feed.title}") 
       feed.entries.slice(0,3).each do |item|

@@ -1,10 +1,12 @@
+refresh_feed = null
 refresh_feed = (link) ->
   $.ajax('/feeds/' + link.getAttribute('feed_id') + '/refresh', { type: 'POST' })
   spin_and_wait(link)
 
 refresh_all = ->
- $.ajax '/feeds/refresh',  type: 'POST'
- $ '.feed .refresh a'.each (link) ->
+  $.ajax '/feeds/refresh'
+    type: 'POST'
+  $('.feed .refresh a').each (ind,link) ->
     spin_and_wait link
 
 spin_and_wait = (link) ->
@@ -13,14 +15,15 @@ spin_and_wait = (link) ->
 
 poll_for_update =  (feed_id, last_modified, link) ->
   setTimeout ->
-    $.get '/feeds/' + feed_id,
-      method: 'get'
-      requestHeaders:  'If-Modified-Since': last_modified
-      onComplete:   (transport) ->
-        if transport.status == 304
+    $.ajax 
+      url: '/feeds/' + feed_id
+      headers:  
+        'If-Modified-Since': last_modified
+      success:   (data, txtStatus, xhr) ->
+        if xhr.status == 304
           poll_for_update(feed_id, last_modified, link)
-         else if transport.status == 200
-          $('feed_' + feed_id).innerHTML = transport.responseText
+         else if xhr.status == 200
+          $('#feed_' + feed_id).html(data)
          else
           link.innerHTML = 'error'
   ,1000
