@@ -1,3 +1,4 @@
+require 'feed_fetcher'
 class FeedsController < ApplicationController
   def index
     @feeds = Feed.all(:include=>:posts)
@@ -5,7 +6,8 @@ class FeedsController < ApplicationController
 
   def show
     @feed = Feed.find(params[:id])
-    if stale?(:last_modified => @feed.updated_at)
+    ::FeedFetcher.new(@feed).fetch()
+    if stale?(:last_modified => @feed.feed_updated_at)
       render :partial => 'feed', :locals => { :feed => @feed }
     else
       response['Cache-Control'] = 'public, max-age=1'
@@ -18,7 +20,8 @@ class FeedsController < ApplicationController
 
   def create
     @feed = Feed.new(:url => params[:url])
-    notice = "Failed"
+    @feed.feed_updated_at = Time.now.months_ago(2)
+      notice = "Failed"
     if @feed.save
       notice = "Successfully created feed."
     end
@@ -45,12 +48,12 @@ class FeedsController < ApplicationController
   end
 
   def refresh
-    Feed.find(params[:id]).fetch
+    ::FeedFetcher.new(Feed.find(params[:id])).fetch()
     head :ok
   end
 
   def refresh_all
-    Feed.fetch_all
+    ::FeedFetcher.fetch_all
     head :ok
   end
 end

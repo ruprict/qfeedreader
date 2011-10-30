@@ -22,6 +22,7 @@ poll_for_update = function(feed_id, last_modified, link) {
   return setTimeout(function() {
     return $.ajax({
       url: '/feeds/' + feed_id,
+      ifModified: true,
       headers: {
         'If-Modified-Since': last_modified
       },

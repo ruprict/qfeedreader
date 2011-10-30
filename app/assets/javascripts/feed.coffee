@@ -17,6 +17,7 @@ poll_for_update =  (feed_id, last_modified, link) ->
   setTimeout ->
     $.ajax 
       url: '/feeds/' + feed_id
+      ifModified: true
       headers:  
         'If-Modified-Since': last_modified
       success:   (data, txtStatus, xhr) ->
