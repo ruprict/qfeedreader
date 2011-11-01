@@ -1,5 +1,6 @@
-var poll_for_update, refresh_all, refresh_feed, spin_and_wait;
+var active_pollings, poll_for_update, refresh_all, refresh_feed, spin_and_wait;
 refresh_feed = null;
+active_pollings = {};
 refresh_feed = function(link) {
   $.ajax('/feeds/' + link.getAttribute('feed_id') + '/refresh', {
     type: 'POST'
@@ -28,7 +29,7 @@ poll_for_update = function(feed_id, last_modified, link) {
       },
       success: function(data, txtStatus, xhr) {
         if (xhr.status === 304) {
-          return poll_for_update(feed_id, last_modified, link);
+          return $(link).removeClass("refreshing");
         } else if (xhr.status === 200) {
           return $('#feed_' + feed_id).html(data);
         } else {
@@ -36,5 +37,5 @@ poll_for_update = function(feed_id, last_modified, link) {
         }
       }
     });
-  }, 1000);
+  }, 5000);
 };

@@ -1,4 +1,4 @@
-require 'feed_fetcher'
+require 'feed_fetcher/feed_fetcher'
 class FeedsController < ApplicationController
   def index
     @feeds = Feed.all(:include=>:posts)
